@@ -1,13 +1,17 @@
-// Implement fetch API to our Node app.
-const fetch = require("node-fetch");
-const fetchmodule =  require('./fetchmodule')
-
 // Require config
 const { prefix, token } = require('./config.json');
 
 // Requires the discord node modules
+const fs = require('fs');
 const Discord = require('discord.js');
 const client = new Discord.Client();
+client.commands = new Discord.Collection();
+const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+
+for (const file of commandFiles) {
+	const command = require(`./commands/${file}`);
+	client.commands.set(command.name, command);
+};
 
 // bot channels
 const botChannels = ["649170818974089226"];
@@ -24,9 +28,7 @@ client.once('ready', () => {
     // });
     botChannels.forEach(channel => {
         let botChannel = client.channels.get(channel);
-        // if (!!botChannel){
-            botChannel.send("OOOooWeeee! Bot activated!");
-        // };
+        botChannel.send("OOOooWeeee! Bot activated!");
     });
 });
 
@@ -42,20 +44,17 @@ client.on('message', message => {
 // processes the requested command 
 function processCommand(message){
     const args = message.content.slice(prefix.length).split(/ +/);
-    const command = args.shift().toLowerCase();
+    const commandName = args.shift().toLowerCase();
 
-    if (command == "help"){
-        helpCommand(args, message);
-    } else if (command == "commands") {
-        message.channel.send(commands);
-    } else if (command == "meow"){
-        fetchmodule.randCatFact().then(fact => message.channel.send(fact));
-    } else if (command == "woof"){
-        fetchmodule.randDogPhoto().then(attachment => message.channel.send(attachment));
-    } else if (command == "purr"){
-        fetchmodule.randCatPhoto().then(attachment => message.channel.send(attachment));
-    } else {
-        message.channel.send("I don't know that command.");
+    if (!client.commands.has(commandName)) return;
+
+    const command = client.commands.get(commandName);
+
+    try {
+        command.execute(message, args);
+    } catch (error) {
+        console.error(error);
+        message.reply('there was an error trying to execute that command!');
     };
 };
 
