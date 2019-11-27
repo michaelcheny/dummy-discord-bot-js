@@ -5,7 +5,7 @@ module.exports = {
 	name: 'meow',
 	description: 'Shows a random cat fact.',
 	execute(message, args) {
-		randomCatFact().then(fact => message.channel.send(fact));
+		randomCatFact().then(fact => message.channel.send("```" + fact + "```"));
 	},
 };
 

@@ -67,10 +67,4 @@ function helpCommand(args, message){
     };
 };
 
-// commands
-let commands = [
-    "!meow - Random cat fact", 
-    "!woof - Random dog photo",
-    "!purr - Random cat photo"
-];
 
