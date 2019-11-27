@@ -21,11 +21,7 @@ client.on('message', message => {
 	if (message.content === `${prefix}ping`) {
         message.channel.send('pong');
     } else if (message.content === `${prefix}meow`){
-        fetchCats().then(json => {
-            let rand = json.all[Math.floor(Math.random() * json.all.length)];
-            randomFact = rand.text;
-            message.channel.send(randomFact);
-        });        
+        fetchCats().then(fact => message.channel.send(fact)); 
     };
 });
 
@@ -33,9 +29,10 @@ async function fetchCats(){
     try {
         let catRes = await fetch('https://cat-fact.herokuapp.com/facts');
         let catJson = await catRes.json();
-        return catJson
+        let rand = catJson.all[Math.floor(Math.random() * catJson.all.length)];
+        randomFact = rand.text;
+        return randomFact;
     } catch (error){
-        // message.channel.send(error.message)
         console.log(error.message)
     };
 }; 
