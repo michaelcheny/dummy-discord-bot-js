@@ -16,6 +16,7 @@ async function randomCatFact(){ // fetches a random cat fact
         let rand = catJson.all[Math.floor(Math.random() * catJson.all.length)];
         return rand.text;
     } catch (error){
-        console.log(error.message)
+        console.log(error.message);
+        return error.message;
     };
 };
