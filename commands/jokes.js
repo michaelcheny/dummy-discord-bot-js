@@ -6,21 +6,22 @@ module.exports = {
 	name: 'telljoke',
 	description: 'Returns a joke based on a category.',
 	execute(message, args) {
-		randomJoke(args).then(fact => message.channel.send("```" + fact + "```"));
+        randomJoke(args).then(msg => message.channel.send("```" + msg + "```"));
 	},
 };
 
-async function randomJoke(category){ // fetches a random joke
-    console.log(category);
-    try {
-        console.log(baseUrl+category)
-        let response = await fetch(baseUrl+category);
-        let json = await response.json();
-        
-        return processJoke(json);
-    } catch (error){
-        console.log(error.message);
-        return error.message;
+async function randomJoke(category = "any"){ // fetches a random joke
+    if (category[0] === "dark" || category[0] === "any" || category[0] === "miscellaneous" || category[0] === "programming") {
+        try {
+            let response = await fetch(baseUrl+category);
+            let json = await response.json();
+            return processJoke(json);
+        } catch (error){
+            console.log(error.message);
+            return error.message;
+        };
+    } else {
+        return `Try "!telljoke [category]" \nAvailable categories: any, dark, miscellaneous, and programming. \nWarning: dark is really dark`
     };
 };
 
@@ -28,9 +29,6 @@ function processJoke(jsonObj){
     if (jsonObj.type ==="single"){
         return `${jsonObj.joke}`
     } else {
-        return `    ${jsonObj.setup}...
-        
-    ${jsonObj.delivery}
-        `
+        return `${jsonObj.setup}...\n   ${jsonObj.delivery}`
     };
 };
