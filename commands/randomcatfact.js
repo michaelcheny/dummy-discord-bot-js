@@ -1,6 +1,5 @@
 const fetch = require("node-fetch");
 
-
 module.exports = {
 	name: 'meow',
 	description: 'Shows a random cat fact.',
