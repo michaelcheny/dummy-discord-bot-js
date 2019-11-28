@@ -5,7 +5,6 @@ module.exports = {
 	name: 'woof',
 	description: 'Shows a random dog photo.',
 	execute(message, args) {
-		// fetchmodule.randDogPhoto.then(fact => message.channel.send(fact));
 		randomDogPhoto().then(fact => message.channel.send(fact));
 	},
 };

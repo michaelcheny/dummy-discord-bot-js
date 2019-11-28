@@ -6,7 +6,6 @@ module.exports = {
 	execute(message, args) {
         // Send error message if arguments not present
         if (!args.length) return message.channel.send("You didn't provide any arguments. Try `!nbastats [First Name] [Last Name]` ");
-
         arg = args.join("%20");
         fetchPlayer(arg).then(player => {
             if (player === undefined){
@@ -43,8 +42,7 @@ async function buildPlayer(playerJson){ // builds the message for the requested 
     Assist: ${stats.ast}
     Steals: ${stats.stl}
     Blocks: ${stats.blk}
-    Turnovers: ${stats.turnover}
-    `
+    Turnovers: ${stats.turnover}`;
 };
 
 async function fetchPlayerStats(id){ // retrieves json with player stats current season

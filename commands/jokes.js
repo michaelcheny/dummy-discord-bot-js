@@ -21,14 +21,14 @@ async function randomJoke(category = "any"){ // fetches a random joke
             return error.message;
         };
     } else {
-        return `Try "!telljoke [category]" \nAvailable categories: any, dark, miscellaneous, and programming. \nWarning: dark is really dark`
+        return `Try "!telljoke [category]" \nAvailable categories: any, dark, miscellaneous, and programming. \nWarning: dark is really dark`;
     };
 };
 
 function processJoke(jsonObj){
     if (jsonObj.type ==="single"){
-        return `${jsonObj.joke}`
+        return `${jsonObj.joke}`;
     } else {
-        return `${jsonObj.setup}...\n   ${jsonObj.delivery}`
+        return `${jsonObj.setup}...\n   ${jsonObj.delivery}`;
     };
 };
