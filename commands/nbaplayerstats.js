@@ -33,7 +33,6 @@ async function buildPlayer(playerJson){ // builds the message for the requested 
     const id = playerJson.id;
     let stats = await fetchPlayerStats(id);
     if (stats === undefined) return "This player doesn't have stats for this season.";
-    console.log(stats)
     return `
     Stats for ${playerJson.first_name + " " + playerJson.last_name}
     Height: ${playerJson.height_feet + "'" + playerJson.height_inches + '"'}, Weight: ${playerJson.weight_pounds}

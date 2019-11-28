@@ -46,7 +46,7 @@ function processCommand(message){
     const args = message.content.slice(prefix.length).split(/ +/);
     const commandName = args.shift().toLowerCase();
 
-    if (!client.commands.has(commandName)) return;
+    if (!client.commands.has(commandName)) return message.reply('there was an error trying to execute that command! Try `!commands`');;
 
     const command = client.commands.get(commandName);
 
@@ -58,13 +58,6 @@ function processCommand(message){
     };
 };
 
-// help command takes multiple args
-function helpCommand(args, message){
-    if (args.length == 0){
-        message.channel.send("What? try `!help [topic]`");
-    } else {
 
-    };
-};
 
 
