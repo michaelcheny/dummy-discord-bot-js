@@ -1,26 +1,26 @@
-const fetch = require("node-fetch");
+const fetch = require('node-fetch');
 
 module.exports = {
-  name: "nbastats",
-  description: "Shows a random cat fact.",
+  name: 'nbastats',
+  description: 'Shows a random cat fact.',
   execute(message, args) {
     // Send error message if arguments not present
     if (!args.length)
       return message.channel.send(
         "You didn't provide any arguments. Try `!nbastats [First Name] [Last Name]` "
       );
-    arg = args.join("%20");
+    arg = args.join('%20');
     fetchPlayer(arg).then(player => {
       if (player === undefined) {
-        message.channel.send("```Player not found.```");
+        message.channel.send('```Player not found.```');
       } else {
-        buildPlayer(player).then(p => message.channel.send("```" + p + "```"));
+        buildPlayer(player).then(p => message.channel.send('```' + p + '```'));
       }
     });
   }
 };
 
-  // retrieves json with name, id, height, weight
+// retrieves json with name, id, height, weight
 async function fetchPlayer(args) {
   try {
     let response = await fetch(
@@ -34,16 +34,16 @@ async function fetchPlayer(args) {
   }
 }
 
-  // builds the message for the requested player
+// builds the message for the requested player
 async function buildPlayer(playerJson) {
   const id = playerJson.id;
   let stats = await fetchPlayerStats(id);
-  console.log(playerJson.first_name + " " + playerJson.last_name);
+  console.log(playerJson.first_name + ' ' + playerJson.last_name);
   console.log(stats);
   if (stats === undefined)
     return "This player doesn't have stats for this season.";
   return `
-    Stats for ${playerJson.first_name + " " + playerJson.last_name}
+    Stats for ${playerJson.first_name + ' ' + playerJson.last_name}
     Height: ${playerJson.height_feet +
       "'" +
       playerJson.height_inches +
@@ -58,7 +58,7 @@ async function buildPlayer(playerJson) {
     Turnovers: ${stats.turnover}`;
 }
 
-  // retrieves json with player stats current season
+// retrieves json with player stats current season
 async function fetchPlayerStats(id) {
   try {
     let response = await fetch(
