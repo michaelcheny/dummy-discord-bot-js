@@ -6,61 +6,51 @@ module.exports = {
   name: "corona",
   description: "Stats for covid-19.",
   execute(message, args) {
-    fetchStats(args).then((msg) => message.channel.send("```" + msg + "```"));
+    if (!args.length) {
+      fetchGlobal().then((data) =>
+        message.channel.send("```fix" + data + "```")
+      );
+    } else {
+      fetchStats(args).then((msg) =>
+        message.channel.send("```fix" + msg + "```")
+      );
+    }
   },
 };
 
-const fetchStats = async (country = "china") => {
-  if (country[0] === "country") {
-    const res = await fetch(baseUrl + `countries/${country[1]}`);
-    const data = await res.json();
-    console.log(data);
-    return thingy(data);
-    // return data;
-  } else {
-    return `Try "!corona [country]"`;
-  }
-};
-
-const thingy = (data) => {
+const fetchGlobal = async () => {
+  const res = await fetch(baseUrl + "all");
+  const data = await res.json();
+  console.log(data);
   return `
-    Country: ${data.country}
-    Cases: ${data.cases}
-    Cases today: ${data.todayCases}
-    Deaths: ${data.deaths} 
-    Deaths today: ${data.todayDeaths}
-    Recovered: ${data.recovered}
-    Active Cases: ${data.active}
-    Total Tests: ${data.totalTests}
-    Tests per million: ${data.testsPerOneMillion}
-    `;
+    Global cases: ${data.cases}
+    Global deaths: ${data.deaths}
+    Global recovered: ${data.recovered}
+  `;
 };
 
-// fetches a random joke
-// async function randomJoke(category = "any") {
-//   if (
-//     category[0] === "dark" ||
-//     category[0] === "any" ||
-//     category[0] === "miscellaneous" ||
-//     category[0] === "programming"
-//   ) {
-//     try {
-//       let response = await fetch(baseUrl + category);
-//       let json = await response.json();
-//       return processJoke(json);
-//     } catch (error) {
-//       console.log(error.message);
-//       return error.message;
-//     }
-//   } else {
-//     return `Try "!telljoke [category]" \nAvailable categories: any, dark, miscellaneous, and programming. \nWarning: dark is really dark`;
-//   }
-// }
+const fetchStats = async (country = "china") => {
+  const res = await fetch(baseUrl + `countries/${country}`);
+  const data = await res.json();
+  // console.log(data);
+  return `
+    ${data.country}
+    cases: ${data.cases} | today: ${data.todayCases} | active: ${data.active}
+    cases per million: ${data.casesPerOneMillion}
+    deaths: ${data.deaths} | today: ${data.todayDeaths}
+    recovered: ${data.recovered} | critical: ${data.critical}
+    total tests: ${data.totalTests} | tests/million: ${data.testsPerOneMillion} 
+  `;
+};
 
-// function processJoke(jsonObj) {
-//   if (jsonObj.type === "single") {
-//     return `${jsonObj.joke}`;
-//   } else {
-//     return `${jsonObj.setup}...\n   ${jsonObj.delivery}`;
-//   }
-// }
+// const thingy = (data) => {
+//   return `
+//     ${data.country}
+
+//     cases: ${data.cases} | today: ${data.todayCases} | active: ${data.active}
+//     cases per million: ${data.casesPerOneMillion}
+//     deaths: ${data.deaths} | today: ${data.todayDeaths}
+//     recovered: ${data.recovered} | critical: ${data.critical}
+//     total tests: ${data.totalTests} | tests/million: ${data.testsPerOneMillion}
+//     `;
+// };
