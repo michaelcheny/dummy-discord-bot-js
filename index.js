@@ -26,10 +26,11 @@ client.once("ready", () => {
   //         console.log(` -${channel.name} ${channel.type} ${channel.id}`)
   //     });
   // });
-  botChannels.forEach((channel) => {
-    let botChannel = client.channels.get(channel);
-    botChannel.send("OOOooWeeee! Bot activated!");
-  });
+
+  // botChannels.forEach((channel) => {
+  //   let botChannel = client.channels.get(channel);
+  //   botChannel.send("OOOooWeeee! Bot activated!");
+  // });
 });
 
 // Logs in with the secret token
