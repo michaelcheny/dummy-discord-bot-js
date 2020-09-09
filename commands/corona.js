@@ -1,25 +1,25 @@
-const fetch = require("node-fetch");
+const fetch = require('node-fetch');
 
-const baseUrl = "https://coronavirus-19-api.herokuapp.com/";
+const baseUrl = 'https://coronavirus-19-api.herokuapp.com/';
 
 module.exports = {
-  name: "corona",
-  description: "Stats for covid-19.",
+  name: 'corona',
+  description: 'Stats for covid-19.',
   execute(message, args) {
     if (!args.length) {
-      fetchGlobal().then((data) => message.channel.send("```fix" + data + "```"));
-    } else if (args[0] === "top") {
-      fetchTopCountries().then((data) => message.channel.send("```fix" + data + "```"));
+      fetchGlobal().then((data) => message.channel.send('```fix' + data + '```'));
+    } else if (args[0] === 'top') {
+      fetchTopCountries().then((data) => message.channel.send('```fix' + data + '```'));
     } else {
-      fetchStats(args).then((msg) => message.channel.send("```fix" + msg + "```"));
+      fetchStats(args).then((msg) => message.channel.send('```fix' + msg + '```'));
     }
   },
 };
 
 const fetchGlobal = async () => {
-  const res = await fetch(baseUrl + "all");
+  const res = await fetch(baseUrl + 'all');
   const data = await res.json();
-  console.log(data);
+  // console.log(data);
   return `
     Global cases: ${data.cases}
     Global deaths: ${data.deaths}
@@ -29,7 +29,7 @@ const fetchGlobal = async () => {
 
 const fetchTopCountries = async () => {
   try {
-    const res = await fetch("https://coronavirus-19-api.herokuapp.com/countries");
+    const res = await fetch('https://coronavirus-19-api.herokuapp.com/countries');
     const data = await res.json();
     return data.slice(0, 5).map((country, index) => {
       return `
@@ -44,7 +44,7 @@ const fetchTopCountries = async () => {
   }
 };
 
-const fetchStats = async (country = "china") => {
+const fetchStats = async (country = 'china') => {
   const res = await fetch(baseUrl + `countries/${country}`);
   const data = await res.json();
   return `
@@ -56,4 +56,3 @@ const fetchStats = async (country = "china") => {
     total tests: ${data.totalTests} | tests/million: ${data.testsPerOneMillion} 
   `;
 };
-
